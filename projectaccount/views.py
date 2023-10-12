@@ -15,7 +15,7 @@ from rest_framework.permissions import AllowAny
 from django.core.exceptions import PermissionDenied
 from rest_framework import generics
 
-from projectaccount.serializer import LoginSerializer, RegisterStudentSerializer, RegisterTeacherSerializer
+from projectaccount.serializer import LoginSerializer
 from .models import *
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet

@@ -3,7 +3,6 @@ from django.db import router
 from django.urls import path
 from rest_framework_nested import routers
 
-from projectaccount.serializer import RegisterTeacherSerializer
 from .views import (
     LoginView,
     LogoutView,

@@ -17,29 +17,36 @@ class SeriesExamSerializer(serializers.ModelSerializer):
 
 class RegisterTeacherSerializer(serializers.ModelSerializer):
     subject = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
+    subject_name = serializers.CharField(source="subject.name", read_only=True)
+    password = serializers.CharField(write_only=True)  # Add this line
 
     class Meta:
         model = Account
-        fields = ["id", "full_name", "username", "password", "subject"]
-        extra_kwargs = {
-            "password": {"write_only": True},
-        }
+        fields = ["id", "full_name", "username", "password", "subject","subject_name"]
+    extra_kwargs = {
+        "password": {"write_only": True, "required": True},  # Make password required
+    }
 
     def create(self, validated_data):
-        subject_id = validated_data.pop('subject', None)
+        subject = validated_data.pop('subject', None)
+        password = validated_data.pop('password')  # Get the password
         user = Account.objects.create(
             username=validated_data["username"],
-            full_name=self.validated_data["full_name"],
+            full_name=validated_data["full_name"],
             role="teacher",
         )
-        user.set_password(validated_data["password"])
+        user.set_password(password)  # Hash the password
 
-        if subject_id:
-            user.subject_id = subject_id
+        if subject:
+            user.subject = subject
 
         user.save()
         return user
-    
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['password'] = self.context.get('request').data.get('password')  # Include plaintext password
+        return ret
 
     
 
