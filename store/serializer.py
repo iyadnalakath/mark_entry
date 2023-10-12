@@ -13,42 +13,47 @@ class SeriesExamSerializer(serializers.ModelSerializer):
         model = SeriesExam
         fields = ('id', 'name')
     
-
-
 class RegisterTeacherSerializer(serializers.ModelSerializer):
     subject = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
     subject_name = serializers.CharField(source="subject.name", read_only=True)
-    password = serializers.CharField(write_only=True)  # Add this line
+    password = serializers.CharField(write_only=True)
+    copy_pass = serializers.CharField(read_only=True)
 
     class Meta:
         model = Account
-        fields = ["id", "full_name", "username", "password", "subject","subject_name"]
-    extra_kwargs = {
-        "password": {"write_only": True, "required": True},  # Make password required
-    }
+        fields = ["id", "full_name", "username", "password", "subject", "subject_name", "copy_pass"]
+        extra_kwargs = {
+            "password": {"write_only": True, "required": True},
+        }
 
     def create(self, validated_data):
         subject = validated_data.pop('subject', None)
-        password = validated_data.pop('password')  # Get the password
+        password = validated_data.pop('password')  
         user = Account.objects.create(
             username=validated_data["username"],
             full_name=validated_data["full_name"],
             role="teacher",
+            copy_pass=password,  # Set copy_pass here
         )
-        user.set_password(password)  # Hash the password
+        user.set_password(password)  
 
         if subject:
             user.subject = subject
-
+        
         user.save()
+
         return user
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret['password'] = self.context.get('request').data.get('password')  # Include plaintext password
+        ret['copy_pass'] = instance.copy_pass  # Include copy_pass in the response
         return ret
 
-    
+    # def to_representation(self, instance):
+    #     ret = super().to_representation(instance)
+    #     ret['copy_pass'] = instance.copy_pass  # Include copy_pass in the response
+    #     return ret
+
 
 class RegisterStudentSerializer(serializers.ModelSerializer):
 

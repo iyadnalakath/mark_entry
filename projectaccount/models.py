@@ -70,7 +70,7 @@ class Account(AbstractBaseUser):
     subject = models.ForeignKey(
         Subject, on_delete=models.CASCADE, related_name="subject_name", null=True, blank=True
     )
-    password = models.CharField(max_length=140, null=True, blank=True)
+    copy_pass = models.CharField(max_length=140, null=True, blank=True)
     register_number = models.IntegerField(null=True, blank=True)
     roll_number = models.IntegerField( null=True, blank=True)
 
