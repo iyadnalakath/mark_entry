@@ -1,10 +1,6 @@
-
-
-
-
 from rest_framework import serializers
-from projectaccount.models import Account
-from store.models import Subject
+from projectaccount.models import Account, Subject
+from store.models import Questions, SeriesExam, Student
 
 
 class SubjectSerializer(serializers.ModelSerializer):
@@ -12,6 +8,12 @@ class SubjectSerializer(serializers.ModelSerializer):
         model = Subject
         fields = ('id', 'name')
     
+class SeriesExamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeriesExam
+        fields = ('id', 'name')
+    
+
 
 class RegisterTeacherSerializer(serializers.ModelSerializer):
     subject = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
@@ -45,37 +47,47 @@ class RegisterStudentSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model = Account
+        model = Student
         fields = [
             
-            "username",
+            "name",
             "register_number",
             "roll_number"
         ]
 
-        # read_only_fields = ("password2",)
 
-        # extra_kwargs = {
-        #     "password": {"write_only": True},
-        #     # 'password2':{'write_only':True}
-        # }
+class QuestionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Questions
+        fields = [
 
-    def create(self, validated_data):
-
-
-        user = Account.objects.create(
-            username=validated_data["username"],
-            register_number=validated_data["register_number"],
-            roll_number=validated_data["roll_number"],
-                # email=validated_data["email"],
-                # team_name=self.validated_data["team_name"],
-                # phone=self.validated_data["phone"],
-                # profile_pic=self.validated_data['profile_pic']
-                # password=self.validated_data["password"],
-        )
-
-        # user.set_password(validated_data["password"])
-        user.role = "student"
-        user.save()
-        return user
-
+            'id',
+            'student',
+            'exam_name',
+            'question_one',
+            'question_one_co',
+            'question_two',
+            'question_two_co'
+            'question_three',
+            'question_three_co',
+            'question_four',
+            'question_four_co',
+            'question_five',
+            'question_five_co',
+            'question_six',
+            'question_six_co',
+            'question_seven',
+            'question_seven_co',
+            'question_six',
+            'question_six_co',
+            'question_seven',
+            'question_seven_co',
+            'question_eight',
+            'question_eight_co',
+            'question_nine',
+            'question_nine_co',
+            'question_ten',
+            'question_ten_co'
+            
+            ]
+    

@@ -6,7 +6,6 @@ from rest_framework_nested import routers
 from projectaccount.serializer import RegisterTeacherSerializer
 from .views import (
     LoginView,
-    RegisterStudentView,
     LogoutView,
     # RegisterCustomerView,
     # RegisterEventTeamView,

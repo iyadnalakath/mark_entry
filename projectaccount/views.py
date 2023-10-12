@@ -112,42 +112,42 @@ from django.http import Http404
 
 
 
-class RegisterStudentView(APIView):
-    permission_classes = [AllowAny]
+# class RegisterStudentView(APIView):
+#     permission_classes = [AllowAny]
 
-    def post(self, request):
-        serializer = RegisterStudentSerializer(data=request.data)
-        data = {}
-        if self.request.user.role == "admin":
-            if serializer.is_valid():
-                account = serializer.save()
+#     def post(self, request):
+#         serializer = RegisterStudentSerializer(data=request.data)
+#         data = {}
+#         if self.request.user.role == "admin":
+#             if serializer.is_valid():
+#                 account = serializer.save()
 
-                data["email"] = account.email
-                data["username"] = account.username
-                data["pk"] = account.pk
-                data["response"] = "successfully registered new user."
+#                 data["email"] = account.email
+#                 data["username"] = account.username
+#                 data["pk"] = account.pk
+#                 data["response"] = "successfully registered new user."
 
-                token = Token.objects.get(user=account).key
-                data["token"] = token
+#                 token = Token.objects.get(user=account).key
+#                 data["token"] = token
 
-                status_code = status.HTTP_200_OK
-                return Response(data, status=status_code)
-            else:
-                # data = serializer.errors
-                return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            raise PermissionDenied("You are not allowed to post this object.")
+#                 status_code = status.HTTP_200_OK
+#                 return Response(data, status=status_code)
+#             else:
+#                 # data = serializer.errors
+#                 return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+#         else:
+#             raise PermissionDenied("You are not allowed to post this object.")
         
         
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset().order_by("auto_id")
-        if self.request.user.role == "admin":
-            serializer = RegisterStudentSerializer(queryset, many=True)
-            # return super().list(request, *args, **kwargs)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+#     def list(self, request, *args, **kwargs):
+#         queryset = self.get_queryset().order_by("auto_id")
+#         if self.request.user.role == "admin":
+#             serializer = RegisterStudentSerializer(queryset, many=True)
+#             # return super().list(request, *args, **kwargs)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        else:
-            raise PermissionDenied("You are not allowed to retrieve this object.")
+#         else:
+#             raise PermissionDenied("You are not allowed to retrieve this object.")
 
 
 # class RegisterView(APIView):

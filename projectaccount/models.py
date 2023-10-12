@@ -5,7 +5,9 @@ from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.db.models.signals import post_save
-from store.models import Subject
+
+# from store.models import Subject
+
 
 
 
@@ -39,6 +41,9 @@ class AccountManager(BaseUserManager):
         user.role = "admin"
         user.save(using=self._db)
         return user
+
+class Subject(models.Model):
+    name = models.CharField(max_length=50,null=True,blank=True)
 
 
 class Account(AbstractBaseUser):

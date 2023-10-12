@@ -15,6 +15,7 @@ router = routers.DefaultRouter()
 router.register("subject", views.SubjectViews,basename="subject"),
 router.register("registration", views.TeacherRegistrationView,basename="teacher"),
 router.register("student/registration", views.StudentRegistrationView,basename="teacher"),
+router.register("seriesexam", views.SeriesExamViews,basename="teacher"),
 # router.register("event_management_users", views.EventManagementUsersView)
 # router.register('eventteamlistsubcatagory',views.EventManagementSubcategoryViewSet,basename='MyModel')
 

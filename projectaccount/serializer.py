@@ -3,14 +3,13 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 
 from store.serializer import SubjectSerializer
-from .models import Account
+from .models import Account, Subject
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 from urllib.parse import urljoin
-from store.models import Subject
 
 
 
