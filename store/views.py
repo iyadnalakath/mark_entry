@@ -24,8 +24,11 @@ class SeriesExamViews(ModelViewSet):
 
 class TeacherRegistrationView(ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Account.objects.all()
+    # queryset = Account.objects.all()
     serializer_class = RegisterTeacherSerializer
+
+    def get_queryset(self):
+        return Account.objects.filter(role="teacher")
 
 class StudentRegistrationView(ModelViewSet):
     permission_classes = [IsAuthenticated]

@@ -17,8 +17,9 @@ class SeriesExam(models.Model):
     name = models.CharField(max_length=50,null=True,blank=True)
 
 class Questions(models.Model):
-    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="teacher", null=True, blank=True)
-    exam_name = models.ForeignKey(SeriesExam, on_delete=models.CASCADE, related_name="series_exam", null=True, blank=True)
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="teacher_name", null=True, blank=True)
+    exam_name = models.ForeignKey(SeriesExam, on_delete=models.CASCADE, related_name="series", null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student_name", null=True, blank=True)
     question_one = models.IntegerField(null=True,blank=True)
     question_one_co = models.CharField(max_length=5,null=True,blank=True)
     question_two = models.IntegerField(null=True,blank=True)

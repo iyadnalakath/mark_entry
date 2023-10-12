@@ -56,7 +56,7 @@ class RegisterStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = [
-            
+            "id",
             "name",
             "register_number",
             "roll_number"
@@ -69,8 +69,9 @@ class QuestionsSerializer(serializers.ModelSerializer):
         fields = [
 
             'id',
-            'student',
+            'teacher',
             'exam_name',
+            'student',
             'question_one',
             'question_one_co',
             'question_two',
