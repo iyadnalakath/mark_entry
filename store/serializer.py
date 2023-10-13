@@ -69,6 +69,9 @@ class RegisterStudentSerializer(serializers.ModelSerializer):
 
 
 class QuestionsSerializer(serializers.ModelSerializer):
+
+    student_name = serializers.CharField(source="student.name", read_only=True)
+
     class Meta:
         model = Questions
         fields = [
@@ -77,10 +80,11 @@ class QuestionsSerializer(serializers.ModelSerializer):
             'teacher',
             'exam_name',
             'student',
+            'student_name',
             'question_one',
             'question_one_co',
             'question_two',
-            'question_two_co'
+            'question_two_co',
             'question_three',
             'question_three_co',
             'question_four',

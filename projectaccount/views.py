@@ -24,7 +24,12 @@ from django.contrib.auth.views import LoginView
 from rest_framework import views
 from django.contrib.auth import logout
 from django.http import Http404
-
+from rest_framework.parsers import (
+    JSONParser,
+    FormParser,
+    MultiPartParser,
+    FileUploadParser,
+)
 
 
 # class RegisterTeacherView(APIView):
@@ -192,16 +197,31 @@ class LoginView(APIView):
 # class LoginView(generics.CreateAPIView):
 #     permission_classes = [AllowAny]
 #     serializer_class = LoginSerializer
-class LogoutView(views.APIView):
-    permission_classes = (IsAuthenticated,)
+# class LogoutView(views.APIView):
+#     permission_classes = (IsAuthenticated,)
+
+#     def post(self, request):
+#         # Django's built-in logout function clears the session and removes the user's authentication token.
+#         logout(request)
+#         return Response(status=204)
+
+
+class LogoutView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = [JSONParser, FormParser, MultiPartParser, FileUploadParser]
 
     def post(self, request):
-        # Django's built-in logout function clears the session and removes the user's authentication token.
-        logout(request)
-        return Response(status=204)
+        context = {}
+        try:
+            request.user.auth_token.delete()
+            context["response"] = "LogOut Successful."
+            status_code = status.HTTP_200_OK
+        except:
+            context["response"] = "Error"
+            context["error_message"] = "Invalid Token"
+            status_code = status.HTTP_400_BAD_REQUEST
 
-
-
+        return Response(context, status=status_code)
 # class ListUsersView(generics.ListAPIView):
 #     queryset = Account.objects.filter(role="customer")
 #     serializer_class = UserListSerializer
