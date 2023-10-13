@@ -40,7 +40,7 @@ class StudentRegistrationView(ModelViewSet):
 
 class StudentRegistrationView(ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Account.objects.all()
+    queryset = Student.objects.all()
     serializer_class = RegisterStudentSerializer
 
 class QuestionView(ModelViewSet):
