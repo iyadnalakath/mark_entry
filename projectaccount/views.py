@@ -186,6 +186,8 @@ class LoginView(APIView):
             context["username"] = username.lower()
             context["token"] = token.key
             context["role"] = user.role
+            # context["subject"] = subject.name
+            context["subject"] = user.subject.name if user.subject else None
             context["response"] = "Successfully authenticated."
             return Response(context, status=status.HTTP_200_OK)
         else:
