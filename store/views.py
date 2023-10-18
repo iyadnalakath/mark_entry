@@ -70,15 +70,17 @@ class QuestionView(ModelViewSet):
 
         else:
             return super().list(request, *args, **kwargs)
+        
+
     def create(self, request, *args, **kwargs):
         data_list = request.data
         responses = []
 
         for data in data_list:
             student_id = data.get('student')
-
+            exam_name_id = data.get('exam_name')
             if student_id:
-                existing_record = Questions.objects.filter(student=student_id).first()
+                existing_record = Questions.objects.filter(student=student_id , exam_name=exam_name_id).first()
                 if existing_record:
                     serializer = self.get_serializer(existing_record, data=data)
                 else:
@@ -92,30 +94,4 @@ class QuestionView(ModelViewSet):
 
         return Response(responses, status=status.HTTP_201_CREATED)
 
-
-    # def create(self, request, *args, **kwargs):
-    #     data = request.data
-    #     serializer = self.get_serializer(data=data, many=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    # def create(self, request, *args, **kwargs):
-    #     data = request.data
-    #     if isinstance(data, list):
-    #         serializer = self.get_serializer(data=data, many=True)
-    #     else:
-    #         serializer = self.get_serializer(data=data)
-
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    # def partial_update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     data = request.data
-    #     serializer = self.get_serializer(instance, data=data, partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-    #     return Response(serializer.data)
 
