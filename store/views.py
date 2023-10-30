@@ -17,6 +17,7 @@ class SubjectViews(ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
 
+
 class SeriesExamViews(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SeriesExam.objects.all()
@@ -38,10 +39,10 @@ class StudentRegistrationView(ModelViewSet):
 
 
 
-class StudentRegistrationView(ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = Student.objects.all()
-    serializer_class = RegisterStudentSerializer
+# class StudentRegistrationView(ModelViewSet):
+#     permission_classes = [IsAuthenticated]
+#     queryset = Student.objects.all()
+#     serializer_class = RegisterStudentSerializer
 
 class QuestionView(ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -70,6 +71,8 @@ class QuestionView(ModelViewSet):
 
         else:
             return super().list(request, *args, **kwargs)
+        
+
         
 
     def create(self, request, *args, **kwargs):

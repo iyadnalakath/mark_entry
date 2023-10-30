@@ -12,7 +12,8 @@ class SeriesExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeriesExam
         fields = ('id', 'name')
-    
+
+        
 class RegisterTeacherSerializer(serializers.ModelSerializer):
     subject = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
     subject_name = serializers.CharField(source="subject.name", read_only=True)
@@ -43,6 +44,16 @@ class RegisterTeacherSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+    def update(self, instance, validated_data):
+        # Handle updating the password and copy_pass fields
+        password = validated_data.get('password')
+        if password:
+            instance.set_password(password)
+            instance.copy_pass = password  # Update copy_pass field
+            
+        instance.save()
+        return instance
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
