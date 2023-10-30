@@ -44,16 +44,23 @@ class RegisterTeacherSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
     def update(self, instance, validated_data):
-        # Handle updating the password and copy_pass fields
+        # Update username, full_name, password, copy_pass, and subject fields
+        instance.username = validated_data.get('username', instance.username)
+        instance.full_name = validated_data.get('full_name', instance.full_name)
+        
         password = validated_data.get('password')
         if password:
             instance.set_password(password)
             instance.copy_pass = password  # Update copy_pass field
-            
+
+        subject = validated_data.get('subject')
+        if subject:
+            instance.subject = subject
+                
         instance.save()
         return instance
+
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
