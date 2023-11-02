@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from projectaccount.models import Subject
-from store.models import Questions, Student
+from store.models import Questions, SeriesExam, Student
 
 
 
@@ -20,6 +20,14 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Student, StudentAdmin)
+
+
+class SeriesExamAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+
+
+admin.site.register(SeriesExam, SeriesExamAdmin)
+
 
 
 
