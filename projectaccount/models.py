@@ -44,6 +44,7 @@ class AccountManager(BaseUserManager):
 
 class Subject(models.Model):
     name = models.CharField(max_length=50,null=True,blank=True)
+    code = models.IntegerField()
 
 
 class Account(AbstractBaseUser):

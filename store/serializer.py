@@ -6,7 +6,7 @@ from store.models import Questions, SeriesExam, Student
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ('id', 'name')
+        fields = ('id', 'name','code')
     
 class SeriesExamSerializer(serializers.ModelSerializer):
     class Meta:
@@ -89,6 +89,7 @@ class RegisterStudentSerializer(serializers.ModelSerializer):
 class QuestionsSerializer(serializers.ModelSerializer):
 
     student_name = serializers.CharField(source="student.name", read_only=True)
+    total_mark = serializers.SerializerMethodField() 
 
     class Meta:
         model = Questions
@@ -118,7 +119,23 @@ class QuestionsSerializer(serializers.ModelSerializer):
             'question_9',
             'question_nine_co',
             'question_10',
-            'question_ten_co'
-            
+            'question_ten_co',
+            'total_mark'
+
             ]
     
+    def get_total_mark(self, obj):
+        question_1 = obj.question_1 or 0
+        question_2 = obj.question_2 or 0
+        question_3 = obj.question_3 or 0
+        question_4 = obj.question_4 or 0
+        question_5 = obj.question_5 or 0
+        question_6 = obj.question_6 or 0
+        question_7 = obj.question_7 or 0
+        question_8 = obj.question_8 or 0
+        question_9 = obj.question_9 or 0
+        question_10 = obj.question_10 or 0
+        
+
+        total_marks = question_1 + question_2 + question_3 + question_4 +question_5 + question_6 + question_7 + question_8 + question_9 + question_10
+        return total_marks
